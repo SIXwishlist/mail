@@ -14,9 +14,11 @@
 	<ul>
 		<li><button class="icon-rename svg" title="{{ t 'Settings' }}"></button></li>
 	</ul>
+	{{#if deletable}}
 	<ul>
 		<li><button class="icon-delete svg" title="{{ t 'Delete account' }}"></button></li>
 	</ul>
+	{{/if}}
 </div>
 {{/if}}
 

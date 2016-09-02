@@ -32,6 +32,7 @@ define(function(require) {
 			var toggleCollapseMessage = this.collapsed ? t('mail', 'Show all folders') : t('mail', 'Collapse folders');
 			return {
 				isUnifiedInbox: this.model.get('accountId') === -1,
+				deletable: this.model.get('accountId') !== -2,
 				toggleCollapseMessage: toggleCollapseMessage,
 				hasMenu: this.model.get('accountId') !== -1,
 				hasFolders: this.collection.length > 0

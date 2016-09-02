@@ -27,6 +27,7 @@ class AccountServiceTest extends TestCase {
 	private $user = 'herbert';
 	private $mapper;
 	private $l10n;
+	private $defaultAccountManager;
 	private $service;
 	private $account1;
 	private $account2;
@@ -38,9 +39,11 @@ class AccountServiceTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+			->getMock();
+		$this->defaultAccountManager = $this->getMockBuilder('OCA\Mail\Service\DefaultAccount\DefaultAccountManager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->service = new AccountService($this->mapper, $this->l10n);
+		$this->service = new AccountService($this->mapper, $this->l10n, $this->defaultAccountManager);
 		$this->account1 = $this->getMockBuilder('OCA\Mail\Db\MailAccount')
 			->disableOriginalConstructor()
 			->getMock();
@@ -54,6 +57,9 @@ class AccountServiceTest extends TestCase {
 			->method('findByUserId')
 			->with($this->user)
 			->will($this->returnValue([$this->account1]));
+		$this->defaultAccountManager->expects($this->once())
+			->method('getDefaultAccount')
+			->will($this->returnValue(null));
 
 		$expected = [
 			new Account($this->account1)
@@ -71,6 +77,9 @@ class AccountServiceTest extends TestCase {
 					$this->account1,
 					$this->account2,
 		]));
+		$this->defaultAccountManager->expects($this->once())
+			->method('getDefaultAccount')
+			->will($this->returnValue(null));
 
 		$expected = [
 			null,
@@ -82,6 +91,22 @@ class AccountServiceTest extends TestCase {
 		$this->assertCount(3, $actual);
 		$this->assertEquals($expected[1], $actual[1]);
 		$this->assertEquals($expected[2], $actual[2]);
+	}
+	
+	public function testFindByUserIdDefaultAccount() {
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with($this->user)
+			->will($this->returnValue([]));
+		$defaultAccount = new OCA\Mail\Db\MailAccount();
+		$this->defaultAccountManager->expects($this->once())
+			->method('getDefaultAccount')
+			->will($this->returnValue($defaultAccount));
+
+		$expected = [
+			new Account($defaultAccount),
+		];
+		$this->assertEquals($expected, $this->service->findByUserId($this->user));
 	}
 
 	public function testFind() {
