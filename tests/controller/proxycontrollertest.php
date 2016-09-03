@@ -109,15 +109,17 @@ class ProxyControllerTest extends TestCase {
 	}
 
 	public function testProxy() {
-		throw new PHPUnit_Framework_SkippedTestError("Test skipped because version hack in ProxyController::getUrlContents is not mockable");
-
 		$src = 'http://example.com';
 		$content = '🐵🐵🐵';
 
 		$this->session->expects($this->once())
 			->method('close');
-		$this->helper->expects($this->once())
-			->method('getUrlContent')
+		$client = $this->getMockBuilder('\OCP\Http\Client\IClient')->getMock();
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->will($this->returnValue($client));
+		$client->expects($this->once())
+			->method('get')
 			->with($src)
 			->will($this->returnValue($content));
 
