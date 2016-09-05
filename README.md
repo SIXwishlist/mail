@@ -5,6 +5,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/nextcloud/mail/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/mail/?branch=master)
 [![PHP Dependency Status](https://www.versioneye.com/user/projects/54e50fadd1ec5734f400078a/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54e50fadd1ec5734f400078a)
 [![JS Dependency Status](https://www.versioneye.com/user/projects/567bd06ba7c90e003500033f/badge.svg?style=flat)](https://www.versioneye.com/user/projects/567bd06ba7c90e003500033f)
+[![Bountysource](https://img.shields.io/bountysource/team/nextcloud/activity.svg?maxAge=2592000)](https://www.bountysource.com/teams/nextcloud/issues?tracker_ids=44154351)
 
 **An email app for [Nextcloud](https://nextcloud.com)**
 
