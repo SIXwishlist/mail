@@ -45,6 +45,7 @@ define(function(require) {
 	 * @param {Account} account
 	 * @param {Folder} folder
 	 * @param {boolean} noSelect
+	 * @param {string} searchQuery
 	 * @returns {undefined}
 	 */
 	function loadFolderMessages(account, folder, noSelect, searchQuery) {
@@ -108,10 +109,13 @@ define(function(require) {
 			});
 
 			$.when(loadingMessages).fail(function() {
+				Radio.ui.trigger('content:error', t('mail', 'Could not load folder "{name}"', {
+					name: folder.get('name')
+				}));
+
 				// Set the old folder as being active
-				var folder = require('state').currentFolder;
-				Radio.folder.trigger('setactive', account, folder);
-				Radio.ui.trigger('error:show', t('mail', 'Error while loading messages.'));
+				var oldFolder = require('state').currentFolder;
+				Radio.folder.trigger('setactive', account, oldFolder);
 			});
 		}
 	}

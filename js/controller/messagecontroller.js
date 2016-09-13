@@ -101,7 +101,7 @@ define(function(require) {
 			}
 		});
 		$.when(fetchingMessage).fail(function() {
-			Radio.ui.trigger('error:show', t('mail', 'Error while loading the selected message.'));
+			Radio.ui.trigger('message:error', t('mail', 'Error while loading the selected message.'));
 		});
 	}
 
